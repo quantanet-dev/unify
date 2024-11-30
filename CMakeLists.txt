@@ -76,14 +76,11 @@ target_include_directories(
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/sources/Unify/include/unify
 )
 
-find_package(OpenGL REQUIRED)
-
 target_link_libraries(
     UnifyEngine
     glad_gl_core_41
     glfw
     spdlog
-    OpenGL::GL
 )
 
 

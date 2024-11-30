@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <stdexcept>
 #include <unify/engine.h>
+#include <unify/log.h>
 
 int main() {
 
