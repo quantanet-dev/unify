@@ -2,6 +2,7 @@
 
 #include "core/window.h"
 #include "managers/log_manager.h"
+#include "managers/render_manager.h"
 
 namespace unify {
 
@@ -12,6 +13,9 @@ public:
 
   void Run();
   inline void Quit() { uIsRunning = false; };
+
+  // managers
+  inline managers::RenderManager &GetRenderManager() { return uRenderManager; };
 
 private:
   bool uIsRunning;
@@ -24,6 +28,7 @@ private:
 
   // managers
   managers::LogManager uLogManager;
+  managers::RenderManager uRenderManager;
 
   // singleton
   Engine();

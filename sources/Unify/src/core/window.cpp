@@ -34,18 +34,7 @@ bool Window::Create() {
   glfwMakeContextCurrent(uWindow);
   glfwSetWindowSizeLimits(uWindow, 200, 200, GLFW_DONT_CARE, GLFW_DONT_CARE);
 
-  int version = gladLoadGL(glfwGetProcAddress);
-  UNIFY_INFO("Loaded OpenGL version {}.{}", GLAD_VERSION_MAJOR(version),
-             GLAD_VERSION_MINOR(version));
-
-  glEnable(GL_DEPTH_TEST);
-  glDepthFunc(GL_LEQUAL);
-
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-  // Cornflower Blue
-  glClearColor(0.39f, 0.58f, 0.93f, 1);
+  gladLoadGL(glfwGetProcAddress);
 
   return true;
 }
@@ -65,9 +54,7 @@ void Window::PollEvents() {
   }
 }
 
-void Window::BeginRender() {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-}
+void Window::BeginRender() { Engine::Instance().GetRenderManager().Clear(); }
 
 void Window::EndRender() { glfwSwapBuffers(uWindow); }
 

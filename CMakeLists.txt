@@ -57,25 +57,33 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(glfw glad spdlog)
 
 add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/_deps/glad-src/cmake)
-glad_add_library(glad_gl_core_41 REPRODUCIBLE API gl:core=4.1 EXTENSIONS)
+glad_add_library(glad_gl_core_41 REPRODUCIBLE API gl:core=4.1)
 
 add_library(
-    ${PROJECT_NAME}
+    UnifyEngine
     ${CMAKE_CURRENT_SOURCE_DIR}/sources/Unify/src/engine.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/sources/Unify/src/core/window.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/sources/Unify/src/managers/log_manager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/sources/Unify/src/managers/render_manager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/sources/Unify/src/graphics/helpers.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/sources/Unify/src/graphics/render_command.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/sources/Unify/src/graphics/mesh.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/sources/Unify/src/graphics/shader.cpp
 )
 
 target_include_directories(
-    ${PROJECT_NAME}
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/sources/Unify/include/unify
+    UnifyEngine
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/sources/Unify/include/unify
 )
 
+find_package(OpenGL REQUIRED)
+
 target_link_libraries(
-    ${PROJECT_NAME}
+    UnifyEngine
     glad_gl_core_41
     glfw
     spdlog
+    OpenGL::GL
 )
 
 
@@ -87,24 +95,17 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_executable(
-    ${PROJECT_NAME}
+    UnifyEditor
     ${CMAKE_CURRENT_SOURCE_DIR}/sources/UnifyEditor/src/main.cpp
 )
 
 target_include_directories(
-    ${PROJECT_NAME}
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/sources/UnifyEditor/include
-    PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/sources/Unify/include
+    UnifyEditor
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/sources/UnifyEditor/include
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/sources/Unify/include
 )
 
 target_link_libraries(
-    ${PROJECT_NAME}
+    UnifyEditor
     UnifyEngine
 )
-
-include(CTest)
-enable_testing()
-
-set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-include(CPack)

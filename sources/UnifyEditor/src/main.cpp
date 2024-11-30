@@ -1,9 +1,8 @@
-#include <iostream>
-#include <ostream>
 #include <unify/engine.h>
+#include <unify/log.h>
 
 int main() {
-  std::cout << "Welcome to UnifyEditor!" << std::endl;
+  UNIFY_TRACE("Welcome to Unify Editor v{}.{}!", 0, 1);
 
   unify::Engine &engine = unify::Engine::Instance();
 

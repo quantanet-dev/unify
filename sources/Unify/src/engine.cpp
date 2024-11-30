@@ -1,5 +1,11 @@
+#include "graphics/mesh.h"
+#include "graphics/render_command.h"
 #include <engine.h>
 #include <log.h>
+
+#include <graphics/mesh.h>
+#include <graphics/shader.h>
+#include <memory>
 
 namespace unify {
 
@@ -15,10 +21,43 @@ Engine &Engine::Instance() {
 void Engine::Run() {
   if (Initialize()) {
 
+    // Test Mesh
+    float vertices[]{-0.5f, -0.5, 0.f, 0.f, 0.5f, 0.f, 0.5f, -0.5f, 0.f};
+
+    std::shared_ptr<graphics::Mesh> mesh =
+        std::make_shared<graphics::Mesh>(&vertices[0], 3, 3);
+
+    // Test Shader
+    const char *vertexShader = R"(
+      #version 410 core
+      layout (location = 0) in vec3 position;
+      void main(){
+        gl_Position = vec4(position, 1.0);
+      }
+    )";
+
+    const char *fragmentShader = R"(
+      #version 410 core
+      out vec4 outColor;
+      void main(){
+        outColor = vec4(1.0);
+      }
+    )";
+
+    std::shared_ptr<graphics::Shader> shader =
+        std::make_shared<graphics::Shader>(vertexShader, fragmentShader);
+
     while (uIsRunning) {
       uWindow.PollEvents();
 
       uWindow.BeginRender();
+
+      auto rc =
+          std::make_unique<graphics::rendercommands::RenderMesh>(mesh, shader);
+
+      uRenderManager.Submit(std::move(rc));
+      uRenderManager.Flush();
+
       uWindow.EndRender();
     }
 
@@ -44,6 +83,10 @@ bool Engine::Initialize() {
       UNIFY_INFO("Initialized GLFW version: {}", version);
 
       if (uWindow.Create()) {
+
+        // Initialize managers
+        uRenderManager.Initialize();
+
         uIsInitialized = true;
         uIsRunning = true;
       }
@@ -63,6 +106,7 @@ void Engine::Shutdown() {
   uIsInitialized = false;
 
   // managers - in reverse order
+  uRenderManager.Shutdown();
   uLogManager.Shutdown();
 
   uWindow.Shutdown();
