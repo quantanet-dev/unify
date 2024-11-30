@@ -1,3 +1,4 @@
+#include "glad/gl.h"
 #include <core/window.h>
 #include <cstddef>
 #include <engine.h>
@@ -6,7 +7,7 @@
 
 namespace unify::core {
 
-Window::Window() : uWindow(NULL) {};
+Window::Window() : uWindow(NULL){};
 
 Window::~Window() {
   if (uWindow) {
@@ -26,7 +27,7 @@ bool Window::Create() {
 
   glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-  uWindow = glfwCreateWindow(1280, 720, "Unify Editor", NULL, NULL);
+  uWindow = glfwCreateWindow(800, 600, "Unify Editor", NULL, NULL);
   if (!uWindow) {
     UNIFY_ERROR("Error: Could not create window");
     return false;
@@ -34,7 +35,7 @@ bool Window::Create() {
   glfwMakeContextCurrent(uWindow);
   glfwSetWindowSizeLimits(uWindow, 200, 200, GLFW_DONT_CARE, GLFW_DONT_CARE);
 
-  gladLoadGL(glfwGetProcAddress);
+  gladLoadGL((GLADloadfunc)glfwGetProcAddress);
 
   return true;
 }
@@ -45,12 +46,11 @@ void Window::Shutdown() {
 }
 
 void Window::PollEvents() {
-  if (uWindow) {
-    if (!glfwWindowShouldClose(uWindow)) {
-      glfwPollEvents();
-    } else {
-      Engine::Instance().Quit();
-    }
+
+  if (!glfwWindowShouldClose(uWindow)) {
+    glfwPollEvents();
+  } else {
+    Engine::Instance().Quit();
   }
 }
 

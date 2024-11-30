@@ -16,7 +16,12 @@ void RenderMesh::Execute() {
     mesh->Bind();
     shader->Bind();
 
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, mesh->GetVertexCount()); UNIFY_CHECK_GL_ERROR
+    if (mesh->GetElementCount() > 0) {
+      glDrawElements(GL_TRIANGLES, mesh->GetElementCount(), GL_UNSIGNED_INT, 0);
+    } else {
+      glDrawArrays(GL_TRIANGLE_STRIP, 0, mesh->GetVertexCount());
+      UNIFY_CHECK_GL_ERROR
+    }
 
     shader->Unbind();
     mesh->Unbind();

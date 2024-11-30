@@ -1,5 +1,6 @@
 #include "graphics/mesh.h"
 #include "graphics/render_command.h"
+#include <cstdint>
 #include <engine.h>
 #include <log.h>
 
@@ -22,33 +23,42 @@ void Engine::Run() {
   if (Initialize()) {
 
     // Test Mesh
-    float vertices[]{-0.5f, -0.5, 0.f, 0.f, 0.5f, 0.f, 0.5f, -0.5f, 0.f};
+    float vertices[]{0.5f,  0.5f,  0.f, 0.5,   -0.5f, 0.f,
+                     -0.5f, -0.5f, 0.f, -0.5f, 0.5f,  0.f};
+
+    uint32_t elements[]{0, 3, 1, 1, 3, 2};
 
     std::shared_ptr<graphics::Mesh> mesh =
-        std::make_shared<graphics::Mesh>(&vertices[0], 3, 3);
+        std::make_shared<graphics::Mesh>(&vertices[0], 4, 3, &elements[0], 6);
 
     // Test Shader
     const char *vertexShader = R"(
       #version 410 core
       layout (location = 0) in vec3 position;
+      out vec3 vPos;
       void main(){
         gl_Position = vec4(position, 1.0);
+        vPos = position + vec3(0.5, 0.5, 0);
       }
     )";
 
     const char *fragmentShader = R"(
       #version 410 core
       out vec4 outColor;
+      in vec3 vPos;
+      uniform vec3 color = vec3(0.0);
       void main(){
-        outColor = vec4(1.0);
+        outColor = vec4(vPos, 1.0);
       }
     )";
 
     std::shared_ptr<graphics::Shader> shader =
         std::make_shared<graphics::Shader>(vertexShader, fragmentShader);
+    shader->SetUniformFloat3("color", 1, 0, 0);
+
+    uRenderManager.SetWireframeMode(true);
 
     while (uIsRunning) {
-      uWindow.PollEvents();
 
       uWindow.BeginRender();
 
@@ -59,6 +69,8 @@ void Engine::Run() {
       uRenderManager.Flush();
 
       uWindow.EndRender();
+
+      uWindow.PollEvents();
     }
 
     Shutdown();
@@ -107,9 +119,9 @@ void Engine::Shutdown() {
 
   // managers - in reverse order
   uRenderManager.Shutdown();
+  uWindow.Shutdown();
   uLogManager.Shutdown();
 
-  uWindow.Shutdown();
   glfwTerminate();
 }
 
@@ -135,6 +147,6 @@ void Engine::GetInfo() {
 // singleton
 Engine *Engine::uInstance = NULL;
 
-Engine::Engine() : uIsRunning(false), uIsInitialized(false) {};
+Engine::Engine() : uIsRunning(false), uIsInitialized(false){};
 
 } // namespace unify

@@ -63,4 +63,13 @@ void RenderManager::SetClearColor(float r, float g, float b, float a) {
   UNIFY_CHECK_GL_ERROR
 }
 
+void RenderManager::SetWireframeMode(bool enabled) {
+  if (enabled) {
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    UNIFY_CHECK_GL_ERROR
+  } else {
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    UNIFY_CHECK_GL_ERROR
+  }
+}
 } // namespace unify::managers

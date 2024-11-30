@@ -22,6 +22,7 @@ public:
   void Clear();
 
   void SetClearColor(float r, float g, float b, float a);
+  void SetWireframeMode(bool enabled);
 
 private:
   std::queue<std::unique_ptr<graphics::rendercommands::RenderCommand>>
