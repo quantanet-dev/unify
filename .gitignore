@@ -1,0 +1,10 @@
+# Directories
+.vs/
+.vscode/
+bin*/
+logs*/
+build*/
+
+# Files
+*.user
+*.DS_STORE
