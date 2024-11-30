@@ -4,6 +4,7 @@
 bin*/
 logs*/
 build*/
+.cache/
 
 # Files
 *.user
