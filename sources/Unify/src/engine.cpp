@@ -1,87 +1,96 @@
 #include <engine.h>
-#include <iostream>
-
-#include <GLFW/glfw3.h>
+#include <log.h>
 
 namespace unify {
 
-    //public
+// public
 
-    Engine& Engine::Instance(){
-        if (!uInstance){
-            uInstance = new Engine();
-        }
-        return *uInstance;
-    };
+Engine &Engine::Instance() {
+  if (!uInstance) {
+    uInstance = new Engine();
+  }
+  return *uInstance;
+};
 
-    void Engine::Run(){
+void Engine::Run() {
+  if (Initialize()) {
 
+    while (uIsRunning) {
+      uWindow.PollEvents();
 
-        if (Initialize()){
-
-            while (uIsRunning){
-                uWindow.PollEvents();
-            }
-
-            Shutdown();
-        }
-
-    };
-
-    //private
-
-    bool Engine::Initialize(){
-        bool isInitialized = false;
-
-        if (!glfwInit()){
-            std::cout << "Error initializing GLFW" << std::endl;
-            isInitialized = false;
-        } else {
-           const char* version = glfwGetVersionString();
-           std::cout << "Initialized GLFW version: " << version << std::endl;
-
-           if (uWindow.Create()){
-            isInitialized = true;
-            uIsRunning = true;
-           }
-        }
-
-        if (isInitialized == false){
-            std::cout << "Failed to initialize Unify Engine. Shutting down..." << std::endl;
-        }
-
-        return isInitialized;
-    };
-
-    void Engine::Shutdown(){
-
-        uIsRunning = false;
-
-        uWindow.Shutdown();
-        glfwTerminate();
+      uWindow.BeginRender();
+      uWindow.EndRender();
     }
 
-    void Engine::GetInfo(){
-        #ifdef UNIFY_CONFIG_DEBUG
-            std::cout << "Configuration: DEBUG" << std::endl;
-        #elif UNIFY_CONFIG_RELEASE
-            std::cout << "Configuration: RELEASE" << std::endl;
-        #endif
-        
-        #ifdef UNIFY_PLATFORM_WINDOWS
-            std::cout << "Platform: Windows" << std::endl;
-        #elif UNIFY_PLATFORM_APPLE
-            std::cout << "Platform: MacOS" << std::endl;
-        #elif UNIFY_PLATFORM_LINUX
-            std::cout << "Platform: Linux" << std::endl;
-        #endif
+    Shutdown();
+  }
+};
+
+// private
+
+bool Engine::Initialize() {
+  UNIFY_ASSERT(!uIsInitialized,
+               "Attempting to call Engine:Initialize() more than once!");
+
+  if (!uIsInitialized) {
+    uLogManager.Initialize();
+    GetInfo();
+
+    if (!glfwInit()) {
+      UNIFY_ERROR("ERROR: Unable to initialize GLFW");
+      uIsInitialized = false;
+    } else {
+      const char *version = glfwGetVersionString();
+      UNIFY_INFO("Initialized GLFW version: {}", version);
+
+      if (uWindow.Create()) {
+        uIsInitialized = true;
+        uIsRunning = true;
+      }
     }
+  }
 
-    //singleton
-    Engine* Engine::uInstance = NULL;
+  if (!uIsInitialized) {
+    UNIFY_FATAL("FATAL: Failed to initialize Unify Engine. Shutting down...");
+  }
 
-    Engine::Engine() : uIsRunning(false) {
-        GetInfo();
-    };
+  return uIsInitialized;
+};
 
+void Engine::Shutdown() {
+
+  uIsRunning = false;
+  uIsInitialized = false;
+
+  // managers - in reverse order
+  uLogManager.Shutdown();
+
+  uWindow.Shutdown();
+  glfwTerminate();
 }
+
+void Engine::GetInfo() {
+  UNIFY_INFO("Unify Engine v{}.{}", 0, 1);
+
+#ifdef UNIFY_CONFIG_DEBUG
+  UNIFY_DEBUG("Configuration: DEBUG")
+#elif UNIFY_CONFIG_RELEASE
+  UNIFY_DEBUG("Configuration: RELEASE")
+#endif
+
+#ifdef UNIFY_PLATFORM_WINDOWS
+  UNIFY_DEBUG("Platform: Windows");
+#elif UNIFY_PLATFORM_APPLE
+  UNIFY_DEBUG("Platform: MacOS");
+#elif UNIFY_PLATFORM_LINUX
+  UNIFY_DEBUG("Platform: Linux");
+  std::cout << "Platform: Linux" << std::endl;
+#endif
+}
+
+// singleton
+Engine *Engine::uInstance = NULL;
+
+Engine::Engine() : uIsRunning(false), uIsInitialized(false) {};
+
+} // namespace unify

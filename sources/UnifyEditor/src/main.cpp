@@ -2,15 +2,12 @@
 #include <ostream>
 #include <unify/engine.h>
 
-int main(){
-    std::cout << "Welcome to UnifyEditor!" << std::endl;
+int main() {
+  std::cout << "Welcome to UnifyEditor!" << std::endl;
 
-    unify::Engine& engine = unify::Engine::Instance();
+  unify::Engine &engine = unify::Engine::Instance();
 
-    engine.Run();
-    
-    std::cout << "Press ENTER to continue..." << std::endl;
-    std::cin.ignore();
+  engine.Run();
 
-    return 0;
+  return 0;
 }

@@ -57,12 +57,13 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(glfw glad spdlog)
 
 add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/_deps/glad-src/cmake)
-glad_add_library(glad_gl_core_41 REPRODUCIBLE API gl:core=4.1)
+glad_add_library(glad_gl_core_41 REPRODUCIBLE API gl:core=4.1 EXTENSIONS)
 
 add_library(
     ${PROJECT_NAME}
     ${CMAKE_CURRENT_SOURCE_DIR}/sources/Unify/src/engine.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/sources/Unify/src/core/window.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/sources/Unify/src/managers/log_manager.cpp
 )
 
 target_include_directories(

@@ -1,21 +1,26 @@
 #pragma once
-#pragma clang diagnostic ignored "-Wc++17-extensions"
+
+#include <glad/gl.h>
+#define GLFW_INCLUDE_NONE
+#include "GLFW/glfw3.h"
 
 struct GLFWwindow;
 
 namespace unify::core {
-    class Window {
-        public:
-            Window();
-            ~Window();
+class Window {
+public:
+  Window();
+  ~Window();
 
-            bool Create();
-            void Shutdown();
+  bool Create();
+  void Shutdown();
 
-            void PollEvents();
+  void PollEvents();
 
-        private:
-            GLFWwindow* uWindow;
+  void BeginRender();
+  void EndRender();
 
-    };
-}
+private:
+  GLFWwindow *uWindow;
+};
+} // namespace unify::core

@@ -1,28 +1,33 @@
 #pragma once
 
 #include "core/window.h"
+#include "managers/log_manager.h"
 
 namespace unify {
 
-    class Engine {
-        public:
-            static Engine& Instance();
-            ~Engine(){};
-            
-            void Run();
-            inline void Quit() {uIsRunning = false;};
+class Engine {
+public:
+  static Engine &Instance();
+  ~Engine() {};
 
-        private:
-            bool uIsRunning;
-            core::Window uWindow;
-            
-            [[nodiscard]] bool Initialize();
-            void Shutdown();
-            void GetInfo();
-            
-            //singleton
-            Engine(); 
-            static Engine* uInstance;
-    };
+  void Run();
+  inline void Quit() { uIsRunning = false; };
 
-}
+private:
+  bool uIsRunning;
+  bool uIsInitialized;
+  core::Window uWindow;
+
+  bool Initialize();
+  void Shutdown();
+  void GetInfo();
+
+  // managers
+  managers::LogManager uLogManager;
+
+  // singleton
+  Engine();
+  static Engine *uInstance;
+};
+
+} // namespace unify
