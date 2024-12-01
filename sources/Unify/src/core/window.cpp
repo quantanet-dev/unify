@@ -2,10 +2,14 @@
 #include <core/window.h>
 #include <cstddef>
 #include <engine.h>
-
+#include <iostream>
 #include <log.h>
 
 namespace unify::core {
+
+void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
+  glViewport(0, 0, width, height);
+};
 
 Window::Window() : uWindow(NULL){};
 
@@ -37,6 +41,9 @@ bool Window::Create() {
 
   gladLoadGL((GLADloadfunc)glfwGetProcAddress);
 
+  glfwSetFramebufferSizeCallback(uWindow, framebuffer_size_callback);
+  uMouse = input::Mouse::Initialize(uWindow);
+
   return true;
 }
 
@@ -46,9 +53,8 @@ void Window::Shutdown() {
 }
 
 void Window::PollEvents() {
-
   if (!glfwWindowShouldClose(uWindow)) {
-    glfwPollEvents();
+    glfwPollEvents();  
   } else {
     Engine::Instance().Quit();
   }

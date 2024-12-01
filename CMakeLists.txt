@@ -65,6 +65,7 @@ add_library(
     ${CMAKE_CURRENT_SOURCE_DIR}/sources/Unify/src/core/window.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/sources/Unify/src/managers/log_manager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/sources/Unify/src/managers/render_manager.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/sources/Unify/src/input/mouse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/sources/Unify/src/graphics/helpers.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/sources/Unify/src/graphics/render_command.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/sources/Unify/src/graphics/mesh.cpp

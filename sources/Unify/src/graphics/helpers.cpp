@@ -32,8 +32,8 @@ void CheckGLError() {
     }
 
     UNIFY_ERROR("OpenGL Error: {}", errorstr.c_str());
+    UNIFY_ASSERT(!shouldAssert, "OpenGL Error!");
     error = glGetError();
   }
-  UNIFY_ASSERT(!shouldAssert, "OpenGL Error!")
 }
 } // namespace unify::graphics

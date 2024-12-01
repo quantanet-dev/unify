@@ -22,17 +22,17 @@ Engine &Engine::Instance() {
 void Engine::Run() {
   if (Initialize()) {
 
-    // Test Mesh
-    float vertices[]{0.5f,  0.5f,  0.f, 0.5,   -0.5f, 0.f,
-                     -0.5f, -0.5f, 0.f, -0.5f, 0.5f,  0.f};
+    { // Test Mesh
+      float vertices[]{0.5f,  0.5f,  0.f, 0.5,   -0.5f, 0.f,
+                       -0.5f, -0.5f, 0.f, -0.5f, 0.5f,  0.f};
 
-    uint32_t elements[]{0, 3, 1, 1, 3, 2};
+      uint32_t elements[]{0, 3, 1, 1, 3, 2};
 
-    std::shared_ptr<graphics::Mesh> mesh =
-        std::make_shared<graphics::Mesh>(&vertices[0], 4, 3, &elements[0], 6);
+      std::shared_ptr<graphics::Mesh> mesh =
+          std::make_shared<graphics::Mesh>(&vertices[0], 4, 3, &elements[0], 6);
 
-    // Test Shader
-    const char *vertexShader = R"(
+      // Test Shader
+      const char *vertexShader = R"(
       #version 410 core
       layout (location = 0) in vec3 position;
       out vec3 vPos;
@@ -42,7 +42,7 @@ void Engine::Run() {
       }
     )";
 
-    const char *fragmentShader = R"(
+      const char *fragmentShader = R"(
       #version 410 core
       out vec4 outColor;
       in vec3 vPos;
@@ -52,25 +52,26 @@ void Engine::Run() {
       }
     )";
 
-    std::shared_ptr<graphics::Shader> shader =
-        std::make_shared<graphics::Shader>(vertexShader, fragmentShader);
-    shader->SetUniformFloat3("color", 1, 0, 0);
+      std::shared_ptr<graphics::Shader> shader =
+          std::make_shared<graphics::Shader>(vertexShader, fragmentShader);
+      shader->SetUniformFloat3("color", 1, 0, 0);
 
-    uRenderManager.SetWireframeMode(true);
+      uRenderManager.SetWireframeMode(false);
 
-    while (uIsRunning) {
+      while (uIsRunning) {
 
-      uWindow.BeginRender();
+        uWindow.BeginRender();
 
-      auto rc =
-          std::make_unique<graphics::rendercommands::RenderMesh>(mesh, shader);
+        auto rc = std::make_unique<graphics::rendercommands::RenderMesh>(
+            mesh, shader);
 
-      uRenderManager.Submit(std::move(rc));
-      uRenderManager.Flush();
+        uRenderManager.Submit(std::move(rc));
+        uRenderManager.Flush();
 
-      uWindow.EndRender();
+        uWindow.EndRender();
 
-      uWindow.PollEvents();
+        uWindow.PollEvents();
+      }
     }
 
     Shutdown();
