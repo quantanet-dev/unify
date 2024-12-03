@@ -27,9 +27,15 @@
     <ClInclude Include="src\Unify\EntryPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Unify\Log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Unify\Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Unify\Log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
