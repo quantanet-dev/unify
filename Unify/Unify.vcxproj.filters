@@ -1,42 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Unify">
+      <UniqueIdentifier>{F0403F0E-5C55-67BF-25D7-0A1F91AA63F0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Unify\Core.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClInclude Include="src\Unify.h" />
     <ClInclude Include="src\Unify\Application.h">
-      <Filter>Header Files</Filter>
+      <Filter>Unify</Filter>
     </ClInclude>
-    <ClInclude Include="src\Unify.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="src\Unify\Core.h">
+      <Filter>Unify</Filter>
     </ClInclude>
     <ClInclude Include="src\Unify\EntryPoint.h">
-      <Filter>Header Files</Filter>
+      <Filter>Unify</Filter>
     </ClInclude>
     <ClInclude Include="src\Unify\Log.h">
-      <Filter>Header Files</Filter>
+      <Filter>Unify</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Unify\Application.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Unify</Filter>
     </ClCompile>
     <ClCompile Include="src\Unify\Log.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Unify</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
