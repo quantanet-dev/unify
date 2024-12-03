@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35514.174 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Editor\Editor.vcxproj", "{6FCA9BA1-EFA9-4D9A-A1C7-1391A83EEEC2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Unify", "Unify\Unify.vcxproj", "{575CCDF6-893D-4B94-A52F-1A228D79AF77}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{575CCDF6-893D-4B94-A52F-1A228D79AF77}.Debug|x64.ActiveCfg = Debug|x64
+		{575CCDF6-893D-4B94-A52F-1A228D79AF77}.Debug|x64.Build.0 = Debug|x64
+		{575CCDF6-893D-4B94-A52F-1A228D79AF77}.Release|x64.ActiveCfg = Release|x64
+		{575CCDF6-893D-4B94-A52F-1A228D79AF77}.Release|x64.Build.0 = Release|x64
+		{6FCA9BA1-EFA9-4D9A-A1C7-1391A83EEEC2}.Debug|x64.ActiveCfg = Debug|x64
+		{6FCA9BA1-EFA9-4D9A-A1C7-1391A83EEEC2}.Debug|x64.Build.0 = Debug|x64
+		{6FCA9BA1-EFA9-4D9A-A1C7-1391A83EEEC2}.Release|x64.ActiveCfg = Release|x64
+		{6FCA9BA1-EFA9-4D9A-A1C7-1391A83EEEC2}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
